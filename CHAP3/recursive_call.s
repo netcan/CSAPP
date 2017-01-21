@@ -5,33 +5,46 @@
 rfact:
 .LFB0:
 	.cfi_startproc
-	pushl	%ebx
+	pushl	%ebp
 	.cfi_def_cfa_offset 8
-	.cfi_offset 3, -8
-	subl	$8, %esp
-	.cfi_def_cfa_offset 16
-	movl	16(%esp), %ebx
-	movl	$1, %eax
-	cmpl	$1, %ebx
-	jle	.L1
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	subl	$24, %esp
+	call	__x86.get_pc_thunk.ax
+	addl	$_GLOBAL_OFFSET_TABLE_, %eax
+	cmpl	$1, 8(%ebp)
+	jg	.L2
+	movl	$1, -12(%ebp)
+	jmp	.L3
+.L2:
+	movl	8(%ebp), %eax
+	subl	$1, %eax
 	subl	$12, %esp
-	.cfi_def_cfa_offset 28
-	leal	-1(%ebx), %eax
 	pushl	%eax
-	.cfi_def_cfa_offset 32
 	call	rfact
 	addl	$16, %esp
-	.cfi_def_cfa_offset 16
-	imull	%ebx, %eax
-.L1:
-	addl	$8, %esp
-	.cfi_def_cfa_offset 8
-	popl	%ebx
-	.cfi_restore 3
-	.cfi_def_cfa_offset 4
+	imull	8(%ebp), %eax
+	movl	%eax, -12(%ebp)
+.L3:
+	movl	-12(%ebp), %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
 	ret
 	.cfi_endproc
 .LFE0:
 	.size	rfact, .-rfact
+	.section	.text.__x86.get_pc_thunk.ax,"axG",@progbits,__x86.get_pc_thunk.ax,comdat
+	.globl	__x86.get_pc_thunk.ax
+	.hidden	__x86.get_pc_thunk.ax
+	.type	__x86.get_pc_thunk.ax, @function
+__x86.get_pc_thunk.ax:
+.LFB1:
+	.cfi_startproc
+	movl	(%esp), %eax
+	ret
+	.cfi_endproc
+.LFE1:
 	.ident	"GCC: (Debian 6.2.1-5) 6.2.1 20161124"
 	.section	.note.GNU-stack,"",@progbits
