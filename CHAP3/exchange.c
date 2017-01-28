@@ -7,8 +7,8 @@
  ************************************************************************/
 
 
-int exchange(int *xp, int y) {
-	int  x = *xp;
+long int exchange(long int *xp, long int y) {
+	long int  x = *xp;
 	*xp = y;
 	return x;
 }

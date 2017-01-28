@@ -5,13 +5,38 @@
 exchange:
 .LFB0:
 	.cfi_startproc
-	movl	4(%esp), %edx
-	movl	(%edx), %eax
-	movl	8(%esp), %ecx
-	movl	%ecx, (%edx)
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+	.cfi_offset 5, -8
+	movl	%esp, %ebp
+	.cfi_def_cfa_register 5
+	subl	$16, %esp
+	call	__x86.get_pc_thunk.ax
+	addl	$_GLOBAL_OFFSET_TABLE_, %eax
+	movl	8(%ebp), %eax
+	movl	(%eax), %eax
+	movl	%eax, -4(%ebp)
+	movl	8(%ebp), %eax
+	movl	12(%ebp), %edx
+	movl	%edx, (%eax)
+	movl	-4(%ebp), %eax
+	leave
+	.cfi_restore 5
+	.cfi_def_cfa 4, 4
 	ret
 	.cfi_endproc
 .LFE0:
 	.size	exchange, .-exchange
+	.section	.text.__x86.get_pc_thunk.ax,"axG",@progbits,__x86.get_pc_thunk.ax,comdat
+	.globl	__x86.get_pc_thunk.ax
+	.hidden	__x86.get_pc_thunk.ax
+	.type	__x86.get_pc_thunk.ax, @function
+__x86.get_pc_thunk.ax:
+.LFB1:
+	.cfi_startproc
+	movl	(%esp), %eax
+	ret
+	.cfi_endproc
+.LFE1:
 	.ident	"GCC: (Debian 6.2.1-5) 6.2.1 20161124"
 	.section	.note.GNU-stack,"",@progbits
